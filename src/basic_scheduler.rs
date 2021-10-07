@@ -1,4 +1,4 @@
-use crate::System;
+use crate::{System, World};
 use crate::{SchedulerContext, SchedulerContextChange};
 
 pub struct BasicScheduler {
@@ -23,11 +23,11 @@ impl BasicScheduler {
     }
 
     /// One time run of all scheduled systems
-    pub fn tick(&mut self) {
+    pub fn tick(&mut self, world: &mut World) {
         let mut changes: Vec<SchedulerContextChange> = Vec::new();
 
         for system in self.execution_order.iter() {
-            let mut system_context = SchedulerContext::new();
+            let mut system_context = SchedulerContext::new(world);
             system.call(&mut system_context);
             changes.append(&mut system_context.into_changes());
         }

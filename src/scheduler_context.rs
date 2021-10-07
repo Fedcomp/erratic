@@ -1,18 +1,18 @@
-use crate::System;
+use crate::{System, World};
 
 pub enum SchedulerContextChange {
     AddSystem(System)
 }
 
-pub struct SchedulerContext {
+pub struct SchedulerContext<'a> {
+    _world: &'a mut World,
     changes: Vec<SchedulerContextChange>
 }
 
-impl SchedulerContext {
-    pub fn new() -> Self {
-        SchedulerContext {
-            changes: Vec::new()
-        }
+impl <'a> SchedulerContext<'a> {
+    pub fn new(world: &'a mut World) -> Self {
+        let changes = Vec::new();
+        SchedulerContext { _world: world, changes }
     }
 
     pub fn add_system(&mut self, system: System) {
