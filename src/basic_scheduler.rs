@@ -1,4 +1,5 @@
 use crate::System;
+use crate::{SchedulerContext, SchedulerContextChange};
 
 pub struct BasicScheduler {
     execution_order: Vec<System>
@@ -19,8 +20,20 @@ impl BasicScheduler {
 
     /// One time run of all scheduled systems
     pub fn tick(&mut self) {
+        let mut changes: Vec<SchedulerContextChange> = Vec::new();
+
         for system in self.execution_order.iter() {
-            system.call();
+            let mut system_context = SchedulerContext::new();
+            system.call(&mut system_context);
+            changes.append(&mut system_context.changes());
+        }
+
+        for change in changes.into_iter() {
+            match change {
+                SchedulerContextChange::AddSystem(system) => {
+                    self.execution_order.push(system);
+                }
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-type SystemFunction = Box<dyn Fn() -> ()>;
+use crate::SchedulerContext;
+
+type SystemFunction = Box<dyn Fn(&mut SchedulerContext) -> ()>;
 
 pub struct System {
     f: SystemFunction
@@ -9,7 +11,7 @@ impl System {
         System { f }
     }
 
-    pub fn call(&self) {
-        (self.f)();
+    pub fn call(&self, context: &mut SchedulerContext) {
+        (self.f)(context);
     }
 }
