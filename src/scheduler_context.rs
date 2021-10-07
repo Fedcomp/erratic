@@ -19,7 +19,7 @@ impl SchedulerContext {
         self.changes.push(SchedulerContextChange::AddSystem(system));
     }
 
-    pub fn changes(self) -> Vec<SchedulerContextChange> {
+    pub fn into_changes(self) -> Vec<SchedulerContextChange> {
         self.changes
     }
 }

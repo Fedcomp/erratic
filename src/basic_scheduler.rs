@@ -29,7 +29,7 @@ impl BasicScheduler {
         for system in self.execution_order.iter() {
             let mut system_context = SchedulerContext::new();
             system.call(&mut system_context);
-            changes.append(&mut system_context.changes());
+            changes.append(&mut system_context.into_changes());
         }
 
         for change in changes.into_iter() {
