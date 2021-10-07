@@ -18,6 +18,10 @@ impl BasicScheduler {
         self.execution_order.push(system)
     }
 
+    pub fn get_execution_order(&mut self) -> &[System] {
+        &self.execution_order
+    }
+
     /// One time run of all scheduled systems
     pub fn tick(&mut self) {
         let mut changes: Vec<SchedulerContextChange> = Vec::new();
