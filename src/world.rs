@@ -17,6 +17,10 @@ impl World {
         self.entities.push(entity);
         self.last_entity_id += 1;
     }
+
+    pub fn entities(&self) -> &[Entity] {
+        &self.entities
+    }
 }
 
 #[cfg(test)]
